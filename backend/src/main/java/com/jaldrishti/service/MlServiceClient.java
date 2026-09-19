@@ -71,6 +71,9 @@ public class MlServiceClient {
         if (baseUrl == null || baseUrl.isBlank()) return "http://localhost:8000";
         String s = baseUrl.trim();
         if (!s.startsWith("http://") && !s.startsWith("https://")) {
+            if (!s.contains(".")) {
+                s = s + ".onrender.com";
+            }
             s = "https://" + s;
         }
         if (s.endsWith("/")) {

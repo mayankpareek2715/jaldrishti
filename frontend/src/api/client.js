@@ -6,9 +6,18 @@ let baseURL = '/api'
 if (rawBase && rawBase.trim() !== '') {
   rawBase = rawBase.trim()
   if (!rawBase.startsWith('http://') && !rawBase.startsWith('https://') && !rawBase.startsWith('/')) {
-    baseURL = `https://${rawBase}/api`
+    if (!rawBase.includes('.')) {
+      rawBase = `${rawBase}.onrender.com`
+    }
+    baseURL = `https://${rawBase}`
   } else {
     baseURL = rawBase
+  }
+  if (baseURL.endsWith('/')) {
+    baseURL = baseURL.slice(0, -1)
+  }
+  if (!baseURL.endsWith('/api')) {
+    baseURL = `${baseURL}/api`
   }
 }
 const client = axios.create({ baseURL, timeout: 15000 })
