@@ -69,11 +69,11 @@ services:
     autoDeploy: true
     envVars:
       - key: VITE_API_BASE_URL
-        fromService:
-          type: web
-          name: jaldrishti-backend
-          property: host
+        value: https://jaldrishti-backend-1x9m.onrender.com/api
     routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://jaldrishti-backend-1x9m.onrender.com/api/*
       - type: rewrite
         source: /*
         destination: /index.html
