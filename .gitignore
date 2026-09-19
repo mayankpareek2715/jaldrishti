@@ -1,0 +1,35 @@
+# Java / Maven
+backend/target/
+*.class
+
+# Python
+ml-service/venv/
+ml-service/__pycache__/
+ml-service/model/__pycache__/
+ml-service/artifacts/*.csv
+!ml-service/artifacts/xgb_model.json
+!ml-service/artifacts/model_metadata.json
+*.pyc
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Environment (API keys)
+.env
+.env.local
+frontend/.env
+frontend/.env.local
+
+# Dynamic Uploads
+uploads/reports/*
+!uploads/reports/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db

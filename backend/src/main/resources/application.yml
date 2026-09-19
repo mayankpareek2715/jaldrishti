@@ -1,0 +1,68 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: jaldrishti-backend
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:jaldrishti;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:}
+  sql:
+    init:
+      mode: never
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: ${HIBERNATE_DIALECT:org.hibernate.dialect.H2Dialect}
+        jdbc:
+          time_zone: UTC
+  jackson:
+    default-property-inclusion: non_null
+
+jaldrishti:
+  ml-service:
+    base-url: ${ML_SERVICE_URL:http://localhost:8000}
+  alerts:
+    severe-threshold: 0.75
+    high-threshold: 0.50
+  rainfall:
+    live-enabled: true          # set false to force pure DEMO MODE (no external calls)
+    poll-interval-ms: 300000    # 5 minutes
+  cors:
+    allowed-origins: http://localhost:3000
+  flood-routing:
+    time-weight: 1.0
+    distance-weight: 0.5
+    flood-weight: 3.0
+    severe-flood-weight: 10.0
+    blocked-road-weight: 50.0
+    proximity-km: 2.0
+    google-api-key: ${GOOGLE_MAPS_API_KEY:}
+  jwt:
+    secret: ${JWT_SECRET:JalDrishtiUrbanFloodIntelligenceSecureSecretKey2026!}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+  google:
+    client-id: ${GOOGLE_CLIENT_ID:}
+  imd:
+    base-url: ${IMD_API_BASE_URL:https://api.imd.gov.in}
+    api-key: ${IMD_API_KEY:}
+    jwt-token: ${IMD_JWT_TOKEN:}
+    provider: ${APP_WEATHER_PROVIDER:imd}
+    connect-timeout-ms: 5000
+    read-timeout-ms: 10000
+    max-retries: 2
+    cache-ttl-current-weather-seconds: 900
+    cache-ttl-nowcast-seconds: 900
+    cache-ttl-rainfall-seconds: 3600
+    cache-ttl-warnings-seconds: 1800
+    cache-ttl-aws-seconds: 900
+
+logging:
+  level:
+    com.jaldrishti: INFO
+
