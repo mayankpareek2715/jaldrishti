@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
-import { api } from '../api/client'
+import { api, getMediaUrl } from '../api/client'
 import StreetViewModal from '../components/StreetViewModal'
 
 export default function ReportsView({ activeCity, onOpenReportModal }) {
@@ -230,7 +230,7 @@ export default function ReportsView({ activeCity, onOpenReportModal }) {
                           </span>
                         )}
                         <video
-                          src={report.photoUrl}
+                          src={getMediaUrl(report.photoUrl)}
                           controls
                           preload="metadata"
                           style={{
@@ -272,14 +272,14 @@ export default function ReportsView({ activeCity, onOpenReportModal }) {
                           </span>
                         )}
                         <a
-                          href={report.photoUrl}
+                          href={getMediaUrl(report.photoUrl)}
                           target="_blank"
                           rel="noopener noreferrer"
                           title="Click to view full image evidence"
                           style={{ display: 'block', width: '100%', height: '100%' }}
                         >
                           <img
-                            src={report.photoUrl}
+                            src={getMediaUrl(report.photoUrl)}
                             alt="Incident evidence"
                             onError={() => handleMediaError(report.id)}
                             style={{

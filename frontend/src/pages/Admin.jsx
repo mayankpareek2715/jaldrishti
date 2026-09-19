@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-import { api } from '../api/client'
+import { api, getMediaUrl } from '../api/client'
 import TierBadge from '../components/TierBadge'
 import AlertFeed from '../components/AlertFeed'
 
@@ -202,7 +202,7 @@ export default function Admin({ activeCity }) {
                         🎥 Video Evidence
                       </div>
                       <video
-                        src={report.photoUrl}
+                        src={getMediaUrl(report.photoUrl)}
                         controls
                         style={{ width: '100%', maxHeight: 160, display: 'block' }}
                       />
@@ -212,9 +212,9 @@ export default function Admin({ activeCity }) {
                       <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 2, fontFamily: 'var(--font-mono)' }}>
                         📷 Photo Evidence:
                       </div>
-                      <a href={report.photoUrl} target="_blank" rel="noopener noreferrer" title="Click to view full image">
+                      <a href={getMediaUrl(report.photoUrl)} target="_blank" rel="noopener noreferrer" title="Click to view full image">
                         <img
-                          src={report.photoUrl}
+                          src={getMediaUrl(report.photoUrl)}
                           alt="Citizen evidence"
                           style={{ maxHeight: 130, maxWidth: '100%', borderRadius: 4, border: '1px solid var(--border)', objectFit: 'cover', display: 'block' }}
                         />

@@ -1,8 +1,33 @@
 import axios from 'axios'
 import { mockEngine } from './mockEngine'
 
-const baseURL = import.meta.env.VITE_API_BASE_URL || '/api'
+let rawBase = import.meta.env.VITE_API_BASE_URL
+let baseURL = '/api'
+if (rawBase && rawBase.trim() !== '') {
+  rawBase = rawBase.trim()
+  if (!rawBase.startsWith('http://') && !rawBase.startsWith('https://') && !rawBase.startsWith('/')) {
+    baseURL = `https://${rawBase}/api`
+  } else {
+    baseURL = rawBase
+  }
+}
 const client = axios.create({ baseURL, timeout: 15000 })
+
+export const getMediaUrl = (url) => {
+  if (!url) return ''
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) {
+    return url
+  }
+  if (baseURL.startsWith('http://') || baseURL.startsWith('https://')) {
+    try {
+      const origin = new URL(baseURL).origin
+      return `${origin}${url.startsWith('/') ? '' : '/'}${url}`
+    } catch {
+      return url
+    }
+  }
+  return url
+}
 
 // Interceptor: Attach JWT bearer token if available
 client.interceptors.request.use((config) => {

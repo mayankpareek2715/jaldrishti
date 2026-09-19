@@ -67,12 +67,24 @@ public class MlServiceClient {
         return h;
     }
 
+    private String getEffectiveBaseUrl() {
+        if (baseUrl == null || baseUrl.isBlank()) return "http://localhost:8000";
+        String s = baseUrl.trim();
+        if (!s.startsWith("http://") && !s.startsWith("https://")) {
+            s = "https://" + s;
+        }
+        if (s.endsWith("/")) {
+            s = s.substring(0, s.length() - 1);
+        }
+        return s;
+    }
+
     private PredictionResponseDto callAndParse(String path, Map<String, Object> body, boolean simulated) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
-            JsonNode response = restTemplate.postForObject(baseUrl + path, entity, JsonNode.class);
+            JsonNode response = restTemplate.postForObject(getEffectiveBaseUrl() + path, entity, JsonNode.class);
             return parse(response);
         } catch (RestClientException e) {
             log.debug("ML service unreachable ({}). Using rule-based fallback.", e.getMessage());
